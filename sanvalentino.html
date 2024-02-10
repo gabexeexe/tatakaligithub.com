@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ciao pata</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-image: url('cuori2.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            /* Altri stili CSS per il corpo della pagina, se necessario */
+            color: rgb(0, 0, 0);
+            margin: 0; /* Rimuovi il margine predefinito del body */
+        }
+
+        #messaggioOutput {
+            margin-top: 20px;
+        }
+
+        .caselleTesto {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Allinea a sinistra */
+            margin-top: 10px;
+            margin-left: 10px; /* Aggiunto il margine sinistro per spostare a sinistra */
+            position: fixed; /* Rende posizionato in modo fisso rispetto alla finestra del browser */
+        }
+
+        button {
+            background-color: pink;
+            color: white; /* Cambia il colore del testo per rendere leggibile il testo sullo sfondo rosa */
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        input.casellaTesto {
+            background-color: pink;
+            color: black; /* Cambia il colore del testo per rendere leggibile il testo sullo sfondo rosa */
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        .scritteContainer {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+
+        .scritta {
+            margin-bottom: 10px;
+        }
+
+        button#salvaScritte {
+            background-color: green; /* Colore del pulsante per il salvataggio */
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ciao pata, volevo trovare un modo per farti ricordare i momenti più belli💘 </h1>
+
+    <button id="primoPulsante">premimi🤍</button>
+    <button id="secondoPulsante" style="display: none;">🤍</button>
+
+    <div id="messaggioOutput"></div>
+
+    <!-- Caselle di testo e pulsante "Mostra Scritte" -->
+    <div id="caselleTesto" style="display: none;" class="caselleTesto">
+        <label for="testo1">Cosa abbiamo fatto nella bellissima giornata di oggi?</label>
+        <input type="text" id="testo1" class="casellaTesto" placeholder="Inserisci testo 1">
+
+        <label for="testo2">Che voto dai agli abbracci di oggi?</label>
+        <input type="text" id="testo2" class="casellaTesto" placeholder="Inserisci testo 2">
+
+        <label for="testo3">I baci come sono stati?</label>
+        <input type="text" id="testo3" class="casellaTesto" placeholder="Inserisci testo 3">
+
+        <label for="testo4">invece le coccole come sono state?</label>
+        <input type="text" id="testo4" class="casellaTesto" placeholder="Inserisci testo 4">
+
+        <label for="testo5">Quanto è stato brutto quando ci siamo salutati?</label>
+        <input type="text" id="testo5" class="casellaTesto" placeholder="Inserisci testo 5">
+
+        <button id="mostraScritte">Mostra Scritte</button>
+    </div>
+
+    <!-- Pulsante per salvare le scritte -->
+    <button id="salvaScritte" style="display: none;">Salva Scritte</button>
+
+    <script>
+        var primoPulsante = document.getElementById('primoPulsante');
+        var secondoPulsante = document.getElementById('secondoPulsante');
+        var caselleTesto = document.getElementById('caselleTesto');
+        var mostraScritte = document.getElementById('mostraScritte');
+        var salvaScritte = document.getElementById('salvaScritte');
+        var messaggioOutput = document.getElementById('messaggioOutput');
+
+        primoPulsante.addEventListener('click', function() {
+            messaggioOutput.innerHTML = '<p>è il momento di valutare la giornata che hai passato con il tuo tato💞</p>';
+            primoPulsante.style.display = 'none';
+            secondoPulsante.style.display = 'inline-block';
+            caselleTesto.style.display = 'flex';
+        });
+
+        secondoPulsante.addEventListener('click', function() {
+            messaggioOutput.innerHTML = '<p>TI AMO!</p>';
+        });
+
+        mostraScritte.addEventListener('click', function() {
+            // Recupera i valori dalle caselle di testo
+            var scritte = document.getElementsByClassName('casellaTesto');
+            
+            // Creazione di nuovi elementi HTML per le scritte
+            var scritteContainer = document.createElement('div');
+            scritteContainer.className = 'scritteContainer';
+
+            for (var i = 0; i < scritte.length; i++) {
+                var scritta = document.createElement('div');
+                scritta.className = 'scritta';
+                scritta.innerHTML = '<p>' + scritte[i].previousElementSibling.innerHTML + ': ' + scritte[i].value + '</p>';
+                scritteContainer.appendChild(scritta);
+            }
+
+            // Sostituisci le caselle di testo con le nuove scritte
+            caselleTesto.style.display = 'none';
+            messaggioOutput.appendChild(scritteContainer);
+
+            // Mostra il pulsante "Salva Scritte"
+            salvaScritte.style.display = 'inline-block';
+        });
+
+        salvaScritte.addEventListener('click', function() {
+            // Recupera il testo delle scritte
+            var testoScritte = messaggioOutput.innerText;
+
+            // Crea un elemento "a" (ancora) per scaricare il testo come file
+            var downloadLink = document.createElement('a');
+            downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(testoScritte);
+            downloadLink.download = 'scritte.txt';
+            downloadLink.style.display = 'none';
+
+            // Aggiungi l'elemento "a" al corpo del documento
+            document.body.appendChild(downloadLink);
+
+            // Simula un clic sull'elemento "a" per avviare il download
+            downloadLink.click();
+
+            // Rimuovi l'elemento "a" dopo il download
+            document.body.removeChild(downloadLink);
+        });
+    </script>
+</body>
+</html>
